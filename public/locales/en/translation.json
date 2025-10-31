@@ -1,0 +1,24 @@
+{
+  "dashboard": "Dashboard",
+  "users": "Users",
+  "settings": "Settings",
+  "welcome": "Welcome to the admin panel!",
+  "tr": "Turkish",
+  "en": "English",
+  "profile": "Profile",
+  "logout": "Logout",
+  "day": {
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat",
+    "sun": "Sun"
+  },
+  "totalUsers": "Total Users",
+  "totalSales": "Total Sales",
+  "newMessages": "New Messages",
+  "weeklyRevenue": "Weekly Revenue",
+  "revenue": "Revenue"
+}
