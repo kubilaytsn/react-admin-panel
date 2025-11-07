@@ -19,6 +19,7 @@
   "totalUsers": "Toplam Kullanıcı",
   "totalSales": "Toplam Satış",
   "newMessages": "Yeni Mesajlar",
-  "weeklyRevenue": "Haftalık Gelir",
+  "weeklyRevenue": "Yıllık Gelir",
+  "annualDistribution": "Yıllık Gelir Dağılımı",
   "revenue": "Gelir"
 }

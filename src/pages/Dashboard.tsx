@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, Typography, Box, Grid } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Grid,
+  CircularProgress,
+} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import {
   LineChart,
   Line,
@@ -13,17 +21,50 @@ import {
   Pie,
   Label,
 } from "recharts";
-import {
-  getRevenueChartData,
-  kpiData,
-  pieChartData,
-} from "../mockData/dashboard";
+
+import { DashboardService } from "../api/services/dashboard.service";
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
-  const chartData = getRevenueChartData(t);
 
-  return (
+  const [data, setData] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const paginationModel = { page: 0, pageSize: 5 };
+
+  const columns: any[] = [
+    { field: "id", headerName: "ID", flex: 1 },
+    { field: "firstName", headerName: "First name", flex: 1 },
+    { field: "lastName", headerName: "Last name", flex: 1 },
+    {
+      field: "age",
+      headerName: "Age",
+      type: "number",
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "fullName",
+      headerName: "Full name",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      flex: 1,
+      valueGetter: (__value: any, row: any) =>
+        `${row.firstName || ""} ${row.lastName || ""}`,
+    },
+  ];
+
+  useEffect(() => {
+    DashboardService.getDashboard().then((res: any) => {
+      if (res.data) {
+        setData(res.data);
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  return !loading ? (
     <Box sx={{ p: 2 }} display={"flex"} flexDirection={"column"} gap={2}>
       <Grid container spacing={2}>
         <Grid size="grow">
@@ -33,7 +74,7 @@ const Dashboard: React.FC = () => {
                 {t("totalUsers")}
               </Typography>
               <Typography variant="h5" color="primary">
-                {kpiData.totalUsers}
+                {data.kpiData.totalUsers}
               </Typography>
             </CardContent>
           </Card>
@@ -46,7 +87,7 @@ const Dashboard: React.FC = () => {
                 {t("totalSales")}
               </Typography>
               <Typography variant="h5" color="primary">
-                {kpiData.totalSales}
+                {data.kpiData.totalSales}
               </Typography>
             </CardContent>
           </Card>
@@ -59,14 +100,14 @@ const Dashboard: React.FC = () => {
                 {t("newMessages")}
               </Typography>
               <Typography variant="h5" color="primary">
-                {kpiData.newMessages}
+                {data.kpiData.newMessages}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} sx={{ mb: 4 }}>
+      <Grid container spacing={2}>
         <Grid size="grow">
           <Card elevation={0}>
             <CardContent>
@@ -74,7 +115,7 @@ const Dashboard: React.FC = () => {
                 {t("weeklyRevenue")}
               </Typography>
               <ResponsiveContainer width="100%" height={240}>
-                <LineChart data={chartData}>
+                <LineChart data={data.chartsData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="day" />
 
@@ -110,7 +151,7 @@ const Dashboard: React.FC = () => {
             <Card elevation={0}>
               <CardContent>
                 <Typography variant="h6" sx={{ mb: 2 }}>
-                  {t("weeklyRevenue")}
+                  {t("annualDistribution")}
                 </Typography>
                 <ResponsiveContainer width={240} height={240}>
                   <PieChart
@@ -122,7 +163,7 @@ const Dashboard: React.FC = () => {
                     responsive
                   >
                     <Pie
-                      data={pieChartData}
+                      data={data.pieChartData}
                       innerRadius="80%"
                       outerRadius="100%"
                       // Corner radius is the rounded edge of each pie slice
@@ -140,7 +181,10 @@ const Dashboard: React.FC = () => {
                     />
                     <Label position="center" fill="#666" fontSize={"36"}>
                       {"$" +
-                        pieChartData.reduce((sum, item) => sum + item.value, 0)}
+                        data.pieChartData.reduce(
+                          (sum: any, item: any) => sum + item.value,
+                          0
+                        )}
                     </Label>
                   </PieChart>
                 </ResponsiveContainer>
@@ -149,6 +193,38 @@ const Dashboard: React.FC = () => {
           </Box>
         </Grid>
       </Grid>
+      <Grid container spacing={2}>
+        <Card elevation={0} sx={{ flex: 1 }}>
+          <CardContent>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Kullanıcılar
+            </Typography>
+
+            <DataGrid
+              rows={data.users}
+              columns={columns}
+              initialState={{ pagination: { paginationModel } }}
+              pageSizeOptions={[5, 10]}
+              sx={{ border: 0, width: "100%" }}
+            />
+          </CardContent>
+        </Card>
+      </Grid>
+    </Box>
+  ) : (
+    <Box
+      sx={{
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        position: "absolute",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <CircularProgress />
     </Box>
   );
 };
