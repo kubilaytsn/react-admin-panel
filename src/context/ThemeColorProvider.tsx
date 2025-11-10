@@ -1,6 +1,6 @@
-import React, { createContext, useMemo, useState } from 'react';
-import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import type { PaletteOptions } from '@mui/material';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 
 interface ThemeColorContextType {
   color: string;
@@ -10,7 +10,7 @@ interface ThemeColorContextType {
 const ThemeColorContext = createContext<ThemeColorContextType | undefined>(undefined);
 
 export const ThemeColorProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [color, setColor] = useState('#f25757');
+  const [color, setColor] = useState(window.localStorage.getItem('themeColor') || '#f25757');
 
   const theme = useMemo(
     () =>
@@ -22,6 +22,9 @@ export const ThemeColorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       }),
     [color],
   );
+  useEffect(() => {
+    window.localStorage.setItem('themeColor', color);
+  }, [color]);
 
   return (
     <ThemeColorContext.Provider value={{ color, setColor }}>

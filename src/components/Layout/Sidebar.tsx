@@ -1,5 +1,10 @@
-import React from 'react';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
+  alpha,
+  Box,
+  Divider,
   Drawer,
   List,
   ListItem,
@@ -7,14 +12,11 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
-  Box,
-  Divider,
+  useTheme,
 } from '@mui/material';
-import { NavLink } from 'react-router-dom';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import SettingsIcon from '@mui/icons-material/Settings';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 
 interface SidebarProps {
   drawerWidth: number;
@@ -23,6 +25,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ drawerWidth }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const menuItems = [
     { text: t('dashboard'), path: '/dashboard', icon: <DashboardIcon /> },
@@ -63,11 +66,16 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerWidth }) => {
               key={item.text}
               to={item.path}
               className={({ isActive }) =>
-                `no-underline text-inherit block transition-all ${
-                  isActive ? 'bg-gray-100 border-l-4 border-blue-500' : ''
-                }`
+                `no-underline text-inherit block transition-all ${isActive ? 'border-l-4' : ''}`
               }
-              style={({ isActive }) => (isActive ? { borderColor: 'var(--' } : undefined)}
+              style={({ isActive }) =>
+                isActive
+                  ? {
+                      backgroundColor: alpha(theme.palette.primary.main, 0.05),
+                      borderColor: theme.palette.primary.main,
+                    }
+                  : undefined
+              }
             >
               {({ isActive }) => (
                 <ListItem disablePadding>

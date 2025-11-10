@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Select,
-  MenuItem,
-  type SelectChangeEvent,
-  Box,
-  Avatar,
-  Menu,
-  MenuItem as MUIMenuItem,
-  IconButton,
-  ListItemIcon,
-  Divider,
-  InputBase,
-} from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import ColorizeIcon from '@mui/icons-material/Colorize';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Divider,
+  IconButton,
+  InputBase,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  MenuItem as MUIMenuItem,
+  Select,
+  Toolbar,
+  Typography,
+  type SelectChangeEvent,
+} from '@mui/material';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useThemeColor } from '../../hooks/useThemeColor';
-import ColorizeIcon from '@mui/icons-material/Colorize';
+import { debounce } from '../../utils/debounce';
 
 interface HeaderProps {
   drawerWidth: number;
@@ -31,6 +32,17 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, selectedPage }) => {
   const { color, setColor } = useThemeColor();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const tempColorRef = React.useRef(color);
+
+  const debouncedHandleColor = React.useMemo(
+    () =>
+      debounce((value: string) => {
+        setColor(value); // burada state update
+        tempColorRef.current = value;
+      }, 200), // 200ms debounce
+    [],
+  );
 
   const handleChange = (event: SelectChangeEvent) => {
     const newLang = event.target.value as string;
@@ -95,8 +107,15 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, selectedPage }) => {
           >
             <InputBase
               type="color"
-              value={color}
-              onChange={(e) => handleColor(e.target.value)}
+              value={tempColorRef.current}
+              onChange={(e) => {
+                const value = e.target.value;
+                tempColorRef.current = value; // sadece ref update, render yok
+                debouncedHandleColor(value); // debounced state update
+              }}
+              onBlur={(e: any) => {
+                handleColor(e.target.value);
+              }}
               sx={{
                 height: '200% !important',
                 width: '200% !important',
