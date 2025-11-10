@@ -1,38 +1,34 @@
-import React from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
-import Layout from "../components/Layout/Layout";
-import Dashboard from "../pages/Dashboard";
-import Users from "../pages/Users";
-import Settings from "../pages/Settings";
+import React from 'react';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import Layout from '../components/Layout/Layout';
+import Dashboard from '../pages/Dashboard';
+import Users from '../pages/Users';
+import Settings from '../pages/Settings';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
         index: true,
         element: <Navigate to="/dashboard" />,
-        handle: { title: "Dashboard" },
+        handle: { title: 'Dashboard' },
       },
       {
-        path: "dashboard",
+        path: 'dashboard',
         element: <Dashboard />,
-        handle: { title: "Dashboard" },
+        handle: { title: 'Dashboard' },
       },
       {
-        path: "users",
+        path: 'users',
         element: <Users />,
-        handle: { title: "Users" },
+        handle: { title: 'Users' },
       },
       {
-        path: "settings",
+        path: 'settings',
         element: <Settings />,
-        handle: { title: "Settings" },
+        handle: { title: 'Settings' },
       },
     ],
   },

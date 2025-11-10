@@ -1,14 +1,10 @@
 // src/components/Layout/SvgSprite.tsx
-import React from "react";
+import React from 'react';
 
 const SvgSprite: React.FC = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
+  <svg xmlns="http://www.w3.org/2000/svg" style={{ display: 'none' }}>
     {/* Admin Logo */}
-    <symbol
-      id="admin-logo"
-      viewBox="0 0 152 43"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <symbol id="admin-logo" viewBox="0 0 152 43" xmlns="http://www.w3.org/2000/svg">
       <g id="logogram" transform="translate(0, 1) rotate(0) ">
         <path
           fill-rule="evenodd"

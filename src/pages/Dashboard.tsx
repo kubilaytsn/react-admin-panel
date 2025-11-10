@@ -1,28 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Box, Card, CardContent, CircularProgress, Grid, Typography } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Grid,
-  CircularProgress,
-} from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import {
-  LineChart,
+  CartesianGrid,
+  Label,
   Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Label,
-} from "recharts";
+} from 'recharts';
 
-import { DashboardService } from "../api/services/dashboard.service";
+import { DashboardService } from '../api/services/dashboard.service';
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
@@ -33,25 +26,24 @@ const Dashboard: React.FC = () => {
   const paginationModel = { page: 0, pageSize: 5 };
 
   const columns: any[] = [
-    { field: "id", headerName: "ID", flex: 1 },
-    { field: "firstName", headerName: "First name", flex: 1 },
-    { field: "lastName", headerName: "Last name", flex: 1 },
+    { field: 'id', headerName: 'ID', flex: 1 },
+    { field: 'firstName', headerName: 'First name', flex: 1 },
+    { field: 'lastName', headerName: 'Last name', flex: 1 },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
+      field: 'age',
+      headerName: 'Age',
+      type: 'number',
       flex: 1,
-      headerAlign: "left",
-      align: "left",
+      headerAlign: 'left',
+      align: 'left',
     },
     {
-      field: "fullName",
-      headerName: "Full name",
-      description: "This column has a value getter and is not sortable.",
+      field: 'fullName',
+      headerName: 'Full name',
+      description: 'This column has a value getter and is not sortable.',
       sortable: false,
       flex: 1,
-      valueGetter: (__value: any, row: any) =>
-        `${row.firstName || ""} ${row.lastName || ""}`,
+      valueGetter: (__value: any, row: any) => `${row.firstName || ''} ${row.lastName || ''}`,
     },
   ];
 
@@ -65,13 +57,13 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return !loading ? (
-    <Box sx={{ p: 2 }} display={"flex"} flexDirection={"column"} gap={2}>
+    <Box sx={{ p: 2 }} display={'flex'} flexDirection={'column'} gap={2}>
       <Grid container spacing={2}>
         <Grid size="grow">
           <Card elevation={0}>
             <CardContent>
               <Typography variant="subtitle2" gutterBottom>
-                {t("totalUsers")}
+                {t('totalUsers')}
               </Typography>
               <Typography variant="h5" color="primary">
                 {data.kpiData.totalUsers}
@@ -84,7 +76,7 @@ const Dashboard: React.FC = () => {
           <Card elevation={0}>
             <CardContent>
               <Typography variant="subtitle2" gutterBottom>
-                {t("totalSales")}
+                {t('totalSales')}
               </Typography>
               <Typography variant="h5" color="primary">
                 {data.kpiData.totalSales}
@@ -97,7 +89,7 @@ const Dashboard: React.FC = () => {
           <Card elevation={0}>
             <CardContent>
               <Typography variant="subtitle2" gutterBottom>
-                {t("newMessages")}
+                {t('newMessages')}
               </Typography>
               <Typography variant="h5" color="primary">
                 {data.kpiData.newMessages}
@@ -112,7 +104,7 @@ const Dashboard: React.FC = () => {
           <Card elevation={0}>
             <CardContent>
               <Typography variant="h6" sx={{ mb: 2 }}>
-                {t("weeklyRevenue")}
+                {t('weeklyRevenue')}
               </Typography>
               <ResponsiveContainer width="100%" height={240}>
                 <LineChart data={data.chartsData}>
@@ -123,23 +115,21 @@ const Dashboard: React.FC = () => {
                     tickFormatter={(value) => `$${value}`}
                     type="number"
                     label={{
-                      value: t("revenue"),
-                      style: { textAnchor: "middle" },
+                      value: t('revenue'),
+                      style: { textAnchor: 'middle' },
                       angle: -90,
-                      position: "left",
+                      position: 'left',
                       offset: 0,
                     }}
                     allowDataOverflow
                     width="auto"
                   />
-                  <Tooltip
-                    formatter={(value: number) => [`$${value}`, t("revenue")]}
-                  />
+                  <Tooltip formatter={(value: number) => [`$${value}`, t('revenue')]} />
                   <Line
                     type="monotone"
                     dataKey="revenue"
                     stroke="var(--mui-palette-primary-main)"
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -151,13 +141,13 @@ const Dashboard: React.FC = () => {
             <Card elevation={0}>
               <CardContent>
                 <Typography variant="h6" sx={{ mb: 2 }}>
-                  {t("annualDistribution")}
+                  {t('annualDistribution')}
                 </Typography>
                 <ResponsiveContainer width={240} height={240}>
                   <PieChart
                     style={{
-                      width: "100%",
-                      maxHeight: "240px",
+                      width: '100%',
+                      maxHeight: '240px',
                       aspectRatio: 2,
                     }}
                     responsive
@@ -173,18 +163,12 @@ const Dashboard: React.FC = () => {
                       paddingAngle={5}
                       dataKey="value"
                       isAnimationActive={true}
-                      style={{ outline: "none" }}
+                      style={{ outline: 'none' }}
                     />
 
-                    <Tooltip
-                      formatter={(value: number) => [`$${value}`, t("revenue")]}
-                    />
-                    <Label position="center" fill="#666" fontSize={"36"}>
-                      {"$" +
-                        data.pieChartData.reduce(
-                          (sum: any, item: any) => sum + item.value,
-                          0
-                        )}
+                    <Tooltip formatter={(value: number) => [`$${value}`, t('revenue')]} />
+                    <Label position="center" fill="#666" fontSize={'36'}>
+                      {'$' + data.pieChartData.reduce((sum: any, item: any) => sum + item.value, 0)}
                     </Label>
                   </PieChart>
                 </ResponsiveContainer>
@@ -205,7 +189,7 @@ const Dashboard: React.FC = () => {
               columns={columns}
               initialState={{ pagination: { paginationModel } }}
               pageSizeOptions={[5, 10]}
-              sx={{ border: 0, width: "100%" }}
+              sx={{ border: 0, width: '100%' }}
             />
           </CardContent>
         </Card>
@@ -218,10 +202,10 @@ const Dashboard: React.FC = () => {
         left: 0,
         bottom: 0,
         right: 0,
-        position: "absolute",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        position: 'absolute',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <CircularProgress />

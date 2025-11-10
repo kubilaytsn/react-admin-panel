@@ -1,6 +1,6 @@
-import { api } from "../client";
+import { api } from '../client';
 
 export const DashboardService = {
-  getDashboard: () => api.get("/dashboard"),
-  getUsers: () => api.get("/users"),
+  getDashboard: () => api.get('/dashboard'),
+  getUsers: () => api.get('/users'),
 };

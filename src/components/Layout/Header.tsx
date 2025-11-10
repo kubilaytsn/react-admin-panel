@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -14,12 +14,12 @@ import {
   ListItemIcon,
   Divider,
   InputBase,
-} from "@mui/material";
-import { useTranslation } from "react-i18next";
-import LogoutIcon from "@mui/icons-material/Logout";
-import PersonIcon from "@mui/icons-material/Person";
-import { useThemeColor } from "../../hooks/useThemeColor";
-import ColorizeIcon from "@mui/icons-material/Colorize";
+} from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import { useThemeColor } from '../../hooks/useThemeColor';
+import ColorizeIcon from '@mui/icons-material/Colorize';
 
 interface HeaderProps {
   drawerWidth: number;
@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, selectedPage }) => {
   const handleChange = (event: SelectChangeEvent) => {
     const newLang = event.target.value as string;
     i18n.changeLanguage(newLang);
-    localStorage.setItem("lang", newLang);
+    localStorage.setItem('lang', newLang);
   };
 
   const handleColor = (newColor: string) => {
@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, selectedPage }) => {
     handleMenuClose();
   };
 
-  const currentLang = i18n.language || "en";
+  const currentLang = i18n.language || 'en';
 
   return (
     <AppBar
@@ -66,52 +66,52 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, selectedPage }) => {
       elevation={0}
       sx={{
         width: `calc(100% - ${drawerWidth}px)`,
-        backgroundColor: "#fff",
-        overflow: "hidden",
+        backgroundColor: '#fff',
+        overflow: 'hidden',
         ml: `${drawerWidth}px`,
-        borderBottom: "1px #e5e7eb solid",
+        borderBottom: '1px #e5e7eb solid',
       }}
     >
       <Toolbar
         className="bg-white text-black"
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h6" noWrap component="div">
           {t(selectedPage.toLowerCase())}
         </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Box
             position="relative"
             width={36}
             height={36}
-            borderRadius={"8px"}
-            overflow={"hidden"}
-            border={"solid 4px #f0f0f0"}
-            bgcolor={"#000"}
+            borderRadius={'8px'}
+            overflow={'hidden'}
+            border={'solid 4px #f0f0f0'}
+            bgcolor={'#000'}
           >
             <InputBase
               type="color"
               value={color}
               onChange={(e) => handleColor(e.target.value)}
               sx={{
-                height: "200% !important",
-                width: "200% !important",
+                height: '200% !important',
+                width: '200% !important',
                 padding: 0,
-                position: "absolute",
+                position: 'absolute',
                 top: 0,
                 bottom: 0,
-                left: "-50%",
+                left: '-50%',
                 right: 0,
-                margin: "auto",
-                "& .MuiInputBase-input": {
-                  height: "100%",
-                  cursor: "pointer",
+                margin: 'auto',
+                '& .MuiInputBase-input': {
+                  height: '100%',
+                  cursor: 'pointer',
                 },
-                "& .MuiInputBase-input:hover": {
+                '& .MuiInputBase-input:hover': {
                   opacity: 0.9,
                 },
               }}
@@ -119,15 +119,15 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, selectedPage }) => {
             <ColorizeIcon
               sx={{
                 fontSize: 16,
-                position: "absolute",
+                position: 'absolute',
                 top: 0,
                 bottom: 0,
                 left: 0,
                 right: 0,
-                margin: "auto",
+                margin: 'auto',
                 zIndex: 2,
-                color: "#fff",
-                pointerEvents: "none",
+                color: '#fff',
+                pointerEvents: 'none',
               }}
             />
           </Box>
@@ -140,30 +140,30 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, selectedPage }) => {
             disableUnderline
             sx={{
               minWidth: 120,
-              backgroundColor: "#f0f0f0",
-              borderRadius: "8px",
-              "& .MuiSelect-select": {
-                padding: "8px 14px",
-                display: "flex",
-                alignItems: "center",
+              backgroundColor: '#f0f0f0',
+              borderRadius: '8px',
+              '& .MuiSelect-select': {
+                padding: '8px 14px',
+                display: 'flex',
+                alignItems: 'center',
               },
             }}
           >
             <MenuItem value="en">
               <span style={{ marginRight: 8 }}>🇬🇧</span>
-              {t("en")}
+              {t('en')}
             </MenuItem>
             <MenuItem value="tr">
               <span style={{ marginRight: 8 }}>🇹🇷</span>
-              {t("tr")}
+              {t('tr')}
             </MenuItem>
           </Select>
 
           <Box
             onClick={handleAvatarClick}
-            display={"flex"}
-            alignItems={"center"}
-            sx={{ cursor: "pointer" }}
+            display={'flex'}
+            alignItems={'center'}
+            sx={{ cursor: 'pointer' }}
           >
             <IconButton size="small">
               <Avatar
@@ -171,34 +171,34 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, selectedPage }) => {
                   width: 32,
                   height: 32,
                   fontSize: 12,
-                  bgcolor: "var(--mui-palette-primary-main)",
+                  bgcolor: 'var(--mui-palette-primary-main)',
                 }}
                 alt="Kubilay Tosun"
               >
                 KT
               </Avatar>
             </IconButton>
-            <Typography fontWeight={"500"}>Kubilay Tosun</Typography>
+            <Typography fontWeight={'500'}>Kubilay Tosun</Typography>
           </Box>
           <Menu
             anchorEl={anchorEl}
             open={open}
             onClose={handleMenuClose}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
             <MUIMenuItem onClick={handleProfile}>
               <ListItemIcon>
                 <PersonIcon fontSize="small" />
               </ListItemIcon>
-              {t("profile")}
+              {t('profile')}
             </MUIMenuItem>
             <Divider />
             <MUIMenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <LogoutIcon fontSize="small" />
               </ListItemIcon>
-              {t("logout")}
+              {t('logout')}
             </MUIMenuItem>
           </Menu>
         </Box>

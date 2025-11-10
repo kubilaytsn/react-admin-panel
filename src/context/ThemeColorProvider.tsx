@@ -1,20 +1,16 @@
-import React, { createContext, useMemo, useState } from "react";
-import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
-import type { PaletteOptions } from "@mui/material";
+import React, { createContext, useMemo, useState } from 'react';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import type { PaletteOptions } from '@mui/material';
 
 interface ThemeColorContextType {
   color: string;
   setColor: (color: string) => void;
 }
 
-const ThemeColorContext = createContext<ThemeColorContextType | undefined>(
-  undefined
-);
+const ThemeColorContext = createContext<ThemeColorContextType | undefined>(undefined);
 
-export const ThemeColorProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [color, setColor] = useState("#f25757");
+export const ThemeColorProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [color, setColor] = useState('#f25757');
 
   const theme = useMemo(
     () =>
@@ -24,7 +20,7 @@ export const ThemeColorProvider: React.FC<{ children: React.ReactNode }> = ({
           primary: { main: color },
         } as PaletteOptions,
       }),
-    [color]
+    [color],
   );
 
   return (
